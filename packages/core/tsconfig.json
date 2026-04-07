@@ -1,13 +1,14 @@
 {
-  "extends": "../../tsconfig.base.json",
   "include": ["src", "typings"],
   "compilerOptions": {
     "allowJs": true,
     "module": "ES2022",
+    "moduleResolution": "Bundler",
+    "skipLibCheck": true,
+    "rootDir": "./src",
     "outDir": "./dist",
     "target": "ES2021",
-    "jsx": "preserve",
-    "baseUrl": "./"
+    "jsx": "preserve"
   },
   // NEW: Options for file/directory watching
   "watchOptions": {

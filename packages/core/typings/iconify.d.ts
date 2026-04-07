@@ -1,6 +1,4 @@
-import type { runSVGO } from "@iconify/tools";
-
-export type SVGOOptions = Omit<Parameters<typeof runSVGO>[1], "keepShapes">;
+export type { SVGOOptions } from "@iconify/tools/lib/optimise/svgo.js";
 
 export type { IconifyJSON } from "@iconify/types";
 export type { SVG } from "@iconify/tools";

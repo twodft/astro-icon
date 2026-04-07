@@ -1,5 +1,18 @@
 # astro-icon
 
+## 1.2.0
+
+First release as `@twodft/astro-icon`, a maintained fork of [`astro-icon`](https://github.com/natemoo-re/astro-icon).
+
+### Minor Changes
+
+- Upgraded to support **Astro v6.x** and updated all dependencies (TypeScript 6, Vite 7, Node 22+).
+- Migrated package namespace from `astro-icon` to `@twodft/astro-icon`.
+
+### Patch Changes
+
+- Fixed `SVGOOptions` type incompatibility with `@iconify/tools` v5 — the `Omit<>` wrapper was collapsing a discriminated union, causing TypeScript errors at the `runSVGO` call site.
+
 ## 1.1.5
 
 ### Patch Changes
