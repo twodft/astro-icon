@@ -13,7 +13,7 @@ body:
         ✅ Astro Icon has been added to my `astro.config.mjs` file as an `integration`.
         ✅ I have installed the corresponding `@iconify-json/*` packages.
         ✅ I am using the **latest version of Astro** and all plugins.
-        ✅ I am using a version of Node that Astro supports (`>=18.14.1`)
+        ✅ I am using a version of Node that Astro supports (`>=22.12.0`)
   - type: input
     id: astro-icon
     attributes:

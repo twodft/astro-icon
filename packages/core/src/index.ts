@@ -1,10 +1,15 @@
 import type { IntegrationOptions } from "../typings/integration";
 import { createPlugin } from "./vite-plugin-astro-icon.js";
 import type { AstroIntegration } from "astro";
+import { fileURLToPath } from "node:url";
 
 export default function createIntegration(
   opts: IntegrationOptions = {},
 ): AstroIntegration {
+  const componentsEntry = fileURLToPath(
+    new URL("../components/index.ts", import.meta.url),
+  );
+
   return {
     name: "astro-icon",
     hooks: {
@@ -15,8 +20,16 @@ export default function createIntegration(
         updateConfig({
           vite: {
             plugins: [createPlugin(opts, { root, output, logger })],
+            resolve: {
+              // Cloudflare's workerd dev pipeline can prebundle bare package
+              // imports before Vite virtual modules are available.
+              alias: {
+                "@twodft/astro-icon/components": componentsEntry,
+              },
+            },
             ssr: {
               external,
+              noExternal: ["@twodft/astro-icon"],
             },
           },
         });

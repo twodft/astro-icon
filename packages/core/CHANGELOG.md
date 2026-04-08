@@ -1,5 +1,11 @@
 # astro-icon
 
+## 1.2.1
+
+### Patch Changes
+
+- Fix compatibility with Astro v6 and `@astrojs/cloudflare` v13 in development and server-rendered builds by preventing `@twodft/astro-icon/components` from being prebundled before the integration's virtual module is registered.
+
 ## 1.2.0
 
 First release as `@twodft/astro-icon`, a maintained fork of [`astro-icon`](https://github.com/natemoo-re/astro-icon).
@@ -232,7 +238,6 @@ First release as `@twodft/astro-icon`, a maintained fork of [`astro-icon`](https
 - [#26](https://github.com/natemoo-re/astro-icon/pull/26) [`21bfa28`](https://github.com/natemoo-re/astro-icon/commit/21bfa288c6c3606f5797a22350d8018cd7589a0a) Thanks [@matthewp](https://github.com/matthewp)! - `astro-icon` is now compatible with Astro's `--experimental-static-build` flag
 
 * [#26](https://github.com/natemoo-re/astro-icon/pull/26) [`21bfa28`](https://github.com/natemoo-re/astro-icon/commit/21bfa288c6c3606f5797a22350d8018cd7589a0a) Thanks [@matthewp](https://github.com/matthewp)! - # Breaking Changes
-
   - `astro-icon@0.6.0` is compatible with `astro@0.23.x` and up, but will no longer work in lower versions.
 
   - The `createIconPack` export has been moved from `astro-icon` to `astro-icon/pack`.
@@ -275,7 +280,6 @@ First release as `@twodft/astro-icon`, a maintained fork of [`astro-icon`](https
   Deprecates `<Spritesheet>`, to be replaced with `<Sprite.Provider>` component.
 
   **Migrating from `<Spritesheet>` to `<Sprite.Provider>`**
-
   - Remove `Spritesheet` component.
   - Wrap your site content in `<Sprite.Provider>`. This also works inside of a layout component!
 
