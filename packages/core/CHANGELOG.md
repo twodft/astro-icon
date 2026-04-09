@@ -1,5 +1,11 @@
 # astro-icon
 
+## 1.2.2
+
+### Patch Changes
+
+- Fix local icon hot reloading in `astro dev` so newly added SVG files are picked up without restarting the dev server.
+
 ## 1.2.1
 
 ### Patch Changes

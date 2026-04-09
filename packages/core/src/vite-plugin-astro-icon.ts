@@ -2,7 +2,13 @@ import type { AstroConfig, AstroIntegrationLogger } from "astro";
 import { createHash } from "node:crypto";
 import { parse, resolve } from "node:path";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
-import type { Plugin } from "vite";
+import { fileURLToPath } from "node:url";
+import {
+  normalizePath,
+  type ModuleNode,
+  type Plugin,
+  type ViteDevServer,
+} from "vite";
 import type {
   AstroIconCollectionMap,
   IconCollection,
@@ -20,9 +26,49 @@ export function createPlugin(
   ctx: PluginContext,
 ): Plugin {
   let collections: AstroIconCollectionMap | undefined;
+  let devServer: ViteDevServer | undefined;
+  let reloadTimer: ReturnType<typeof setTimeout> | undefined;
   const { root } = ctx;
+  const rootDir = fileURLToPath(root);
+  const resolvedIconDir = normalizePath(resolve(rootDir, iconDir));
   const virtualModuleId = "virtual:astro-icon";
   const resolvedVirtualModuleId = "\0" + virtualModuleId;
+
+  async function reloadCollections() {
+    if (!collections) {
+      collections = await loadIconifyCollections({ root, include });
+    }
+    const local = await loadLocalCollection(resolvedIconDir, svgoOptions);
+    collections["local"] = local;
+    logCollections(collections, { ...ctx, iconDir });
+    await generateIconTypeDefinitions(Object.values(collections), root);
+    return collections;
+  }
+
+  function invalidateVirtualModules() {
+    if (!devServer) return;
+
+    const modules = [
+      devServer.moduleGraph.getModuleById(resolvedVirtualModuleId),
+      devServer.moduleGraph.getModuleById(virtualModuleId),
+    ].filter((module): module is ModuleNode => Boolean(module));
+
+    const seen = new Set<ModuleNode>();
+    const timestamp = Date.now();
+
+    for (const module of modules) {
+      devServer.moduleGraph.invalidateModule(module, seen, timestamp, true);
+    }
+  }
+
+  function scheduleReload() {
+    if (!devServer) return;
+    clearTimeout(reloadTimer);
+    reloadTimer = setTimeout(() => {
+      invalidateVirtualModules();
+      devServer?.ws.send({ type: "full-reload" });
+    }, 50);
+  }
 
   return {
     name: "astro-icon",
@@ -35,24 +81,20 @@ export function createPlugin(
     async load(id) {
       if (id === resolvedVirtualModuleId) {
         try {
-          if (!collections) {
-            collections = await loadIconifyCollections({ root, include });
-          }
-          const local = await loadLocalCollection(iconDir, svgoOptions);
-          collections["local"] = local;
-          logCollections(collections, { ...ctx, iconDir });
-          await generateIconTypeDefinitions(Object.values(collections), root);
+          await reloadCollections();
         } catch (ex) {
           // Failed to load the local collection
         }
         return `export default ${JSON.stringify(collections)};\nexport const config = ${JSON.stringify({ include })}`;
       }
     },
-    configureServer({ watcher, moduleGraph }) {
-      watcher.add(`${iconDir}/**/*.svg`);
+    configureServer(server) {
+      devServer = server;
+      const { watcher } = server;
+      watcher.add(`${resolvedIconDir}/**/*.svg`);
       watcher.on("all", async (_, filepath: string) => {
-        const parsedPath = parse(filepath);
-        const resolvedIconDir = resolve(root.pathname, iconDir);
+        const normalizedFilepath = normalizePath(filepath);
+        const parsedPath = parse(normalizedFilepath);
         const isSvgFileInIconDir =
           parsedPath.dir.startsWith(resolvedIconDir) &&
           parsedPath.ext === ".svg";
@@ -60,19 +102,16 @@ export function createPlugin(
         if (!isSvgFileInIconDir && !isAstroConfig) return;
         console.log(`Local icons changed, reloading`);
         try {
-          if (!collections) {
-            collections = await loadIconifyCollections({ root, include });
-          }
-          const local = await loadLocalCollection(iconDir, svgoOptions);
-          collections["local"] = local;
-          logCollections(collections, { ...ctx, iconDir });
-          await generateIconTypeDefinitions(Object.values(collections), root);
-          moduleGraph.invalidateAll();
+          await reloadCollections();
+          scheduleReload();
         } catch (ex) {
           // Failed to load the local collection
         }
         return `export default ${JSON.stringify(collections)};\nexport const config = ${JSON.stringify({ include })}`;
       });
+    },
+    buildEnd() {
+      clearTimeout(reloadTimer);
     },
   };
 }
