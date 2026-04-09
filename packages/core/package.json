@@ -1,19 +1,23 @@
 {
   "name": "@twodft/astro-icon",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "type": "module",
   "publishConfig": {
     "access": "public"
   },
-  "types": "./dist/index.d.ts",
+  "types": "./index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
+      "types": "./index.d.ts",
       "default": "./dist/index.js"
     },
-    "./components": "./components/index.ts"
+    "./components": {
+      "types": "./components/index.d.ts",
+      "default": "./components/index.ts"
+    }
   },
   "files": [
+    "index.d.ts",
     "components",
     "dist",
     "typings"

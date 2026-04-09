@@ -1,5 +1,11 @@
 # astro-icon
 
+## 1.2.4
+
+### Patch Changes
+
+- Fix published type entrypoints by shipping stable root and `./components` declaration files instead of pointing package metadata at unbuilt `dist/*.d.ts` files.
+
 ## 1.2.3
 
 ### Patch Changes
