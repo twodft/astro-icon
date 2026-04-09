@@ -1,5 +1,11 @@
 # astro-icon
 
+## 1.2.3
+
+### Patch Changes
+
+- Fix TypeScript declaration resolution for the package root by decoupling the public integration types from internal `@iconify/*` type imports.
+
 ## 1.2.2
 
 ### Patch Changes

@@ -1,8 +1,8 @@
+import type { IntegrationOptions } from "../../typings/integration";
 import type {
   AstroIconCollectionMap,
   IconCollection,
-  IntegrationOptions,
-} from "../../typings/integration";
+} from "../../typings/internal";
 import type { AutoInstall } from "../../typings/iconify";
 
 import { readFile } from "node:fs/promises";

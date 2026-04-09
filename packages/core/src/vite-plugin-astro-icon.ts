@@ -9,11 +9,11 @@ import {
   type Plugin,
   type ViteDevServer,
 } from "vite";
+import type { IntegrationOptions } from "../typings/integration";
 import type {
   AstroIconCollectionMap,
   IconCollection,
-  IntegrationOptions,
-} from "../typings/integration";
+} from "../typings/internal";
 import loadLocalCollection from "./loaders/loadLocalCollection.js";
 import loadIconifyCollections from "./loaders/loadIconifyCollections.js";
 
