@@ -17,6 +17,6 @@
   "devDependencies": {
     "@astrojs/cloudflare": "^13.1.8",
     "@twodft/astro-icon": "workspace:*",
-    "astro": "^6.1.4"
+    "astro": "^6.1.6"
   }
 }
