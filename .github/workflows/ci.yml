@@ -30,14 +30,18 @@ jobs:
           cache: 'pnpm'
       - run: pnpm install
 
-      # Lint autofix cannot run on forks, so just skip those! See https://github.com/wearerequired/lint-action/issues/13
-      - name: Lint (External)
-        if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.owner.login != github.repository_owner }}
+      # Lint autofix: only on push to main or PRs from humans (not forks, not Dependabot)
+      - name: Lint (check only — forks and Dependabot)
+        if: |
+          (github.event_name == 'pull_request' && github.event.pull_request.head.repo.owner.login != github.repository_owner) ||
+          github.actor == 'dependabot[bot]'
         run: pnpm run lint
 
-      # Otherwise, run lint autofixer
-      - name: Lint
-        if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.owner.login == github.repository_owner }}
+      # Auto-fix: push to main or human PRs from same repo
+      - name: Lint (auto-fix)
+        if: |
+          github.actor != 'dependabot[bot]' &&
+          (github.event_name != 'pull_request' || github.event.pull_request.head.repo.owner.login == github.repository_owner)
         uses: wearerequired/lint-action@548d8a7c4b04d3553d32ed5b6e91eb171e10e7bb # v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
