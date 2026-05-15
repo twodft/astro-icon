@@ -7,7 +7,7 @@ export default defineConfig({
 		starlight({
 			title: 'Astro Icon',
 			social: [
-				{ icon: 'github', label: 'GitHub', href: 'https://github.com/natemoo-re/astro-icon' },
+				{ icon: 'github', label: 'GitHub', href: 'https://github.com/dallay/astro-icon' },
 			],
 			sidebar: [
 				{
@@ -29,7 +29,7 @@ export default defineConfig({
 				},
 				{
 					label: 'Reference',
-					autogenerate: { directory: 'reference' },
+					items: [{ autogenerate: { directory: 'reference' } }],
 				},
 			],
 		}),
