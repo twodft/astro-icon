@@ -1,5 +1,54 @@
 # astro-icon
 
+## [1.3.0](https://github.com/dallay/astro-icon/compare/@dallay/astro-icon-v1.2.4...@dallay/astro-icon-v1.3.0) (2026-05-15)
+
+
+### Features
+
+* add Sprite components that leverage &lt;use&gt; ([52bb8ff](https://github.com/dallay/astro-icon/commit/52bb8ff24e1dd1c26f6eadc2bb08d8e7f1ec3573))
+* automatically prefix IDs using SVGO ([0217a71](https://github.com/dallay/astro-icon/commit/0217a716c7278e30a04de45f72e7a3cce5c65180))
+* **desc:** support desc svg tag. ([#247](https://github.com/dallay/astro-icon/issues/247)) ([fce07f1](https://github.com/dallay/astro-icon/commit/fce07f17fe67116165d5d3dd279519bb7bbed55c))
+* fail builds when icons cannot be fetched ([330e465](https://github.com/dallay/astro-icon/commit/330e4654e160bcea8affd672e67afe69c2919cb2))
+* fork as @twodft/astro-icon v1.2.0 with Astro 6 support ([797dca5](https://github.com/dallay/astro-icon/commit/797dca5ee252ee1f592d0545c83189789c0356a8))
+* only include referenced icons in SpriteSheet ([62559e0](https://github.com/dallay/astro-icon/commit/62559e09db40482ab2fc6b4fdc001a6e38e9b7ad))
+* pass props to custom resolver ([#42](https://github.com/dallay/astro-icon/issues/42)) ([ae0a7f7](https://github.com/dallay/astro-icon/commit/ae0a7f72358dee39a133663423b499e4525c06cb))
+
+
+### Bug Fixes
+
+* **#15:** fix parallelism issue with remote cache ([#16](https://github.com/dallay/astro-icon/issues/16)) ([9ff5e7d](https://github.com/dallay/astro-icon/commit/9ff5e7d50ec94e2e0b9552c14b2bcd243fb2c48a))
+* add `Sprite.Provider` component to fix race condition ([e61559b](https://github.com/dallay/astro-icon/commit/e61559be5b530d0cc1e3479490ff23fd06158ef5))
+* add node-fetch as dep ([98eb521](https://github.com/dallay/astro-icon/commit/98eb5218e3dd301967103730c269c764133679ff))
+* **createIconPack:** handle unresolved modules ([#148](https://github.com/dallay/astro-icon/issues/148)) ([d176a7d](https://github.com/dallay/astro-icon/commit/d176a7da3b7332d459ec97c0af1667b6be9057fa))
+* default size attribute ([d998134](https://github.com/dallay/astro-icon/commit/d99813407e9bb0c043a7ff8d499031b667dfd894))
+* do not throw error when no sprites are found ([3b29d89](https://github.com/dallay/astro-icon/commit/3b29d893bbb385c8e6e8fa51b421fefa17b050ac))
+* handle duplicate icon entries in include config ([#245](https://github.com/dallay/astro-icon/issues/245)) ([ff3a66a](https://github.com/dallay/astro-icon/commit/ff3a66a8a357375076022b6f9800561ed845c071))
+* **Icon:** switch to non-deprecated href attribute ([#243](https://github.com/dallay/astro-icon/issues/243)) ([a8c0a6c](https://github.com/dallay/astro-icon/commit/a8c0a6c5fe2a01841c258af5fb3abe04839df5eb))
+* include aliases in icon type definitions and hash calculation ([#250](https://github.com/dallay/astro-icon/issues/250)) ([41218fa](https://github.com/dallay/astro-icon/commit/41218facd06f51a63d75cccb80c3745c256ec99f))
+* inherit viewbox width / height of none provided ([#186](https://github.com/dallay/astro-icon/issues/186)) ([81985cc](https://github.com/dallay/astro-icon/commit/81985cc2b858795319885c2725b8cc4e24d61750))
+* move viewBox to symbol ([#246](https://github.com/dallay/astro-icon/issues/246)) ([4c5da33](https://github.com/dallay/astro-icon/commit/4c5da3378436c2bee6ccdf4ad9cf0e1f32fb6903))
+* replace remaining @twodft/astro-icon references with @dallay/astro-icon ([d2e01db](https://github.com/dallay/astro-icon/commit/d2e01dba00fdb0ca02d25b9957e29a0f3fb77e62))
+* show icon with gradients in Chrome ([#56](https://github.com/dallay/astro-icon/issues/56)) ([60c7304](https://github.com/dallay/astro-icon/commit/60c7304368a7ca88fa2190bc8bfac5e8229e0f50))
+* Sprite component compat with Astro v1.0.0 ([147001e](https://github.com/dallay/astro-icon/commit/147001eb2db7e6cbb8d0433be56fb86f79cf3a42))
+* **types:** resolve package root declarations ([ef09ec4](https://github.com/dallay/astro-icon/commit/ef09ec4e92b96c345fe02dbbc96d1446c4f19c00))
+* **types:** ship stable declaration entrypoints ([5351aaa](https://github.com/dallay/astro-icon/commit/5351aaadbc81e8c7f868b277c27d1b5f4b4a1130))
+* update release workflow and local icon reload ([b032a9c](https://github.com/dallay/astro-icon/commit/b032a9c08f7c3d5699ee3414d2f04f314577f03a))
+* use constant for id prefix ([4ac28c4](https://github.com/dallay/astro-icon/commit/4ac28c41c1c66de4bb9e5b21d4755621dc3b1115))
+
+
+### Performance Improvements
+
+* **createIconPack:** improve local icon resolution ([#149](https://github.com/dallay/astro-icon/issues/149)) ([f564028](https://github.com/dallay/astro-icon/commit/f5640282120e4eaa947c695e02587604f3f8b1a6))
+
+
+### Documentation
+
+* improve readme ([e201b6e](https://github.com/dallay/astro-icon/commit/e201b6e997c6b1cb25de2cc7d72524df0a816a55))
+* **README:** update props section ([63e93a3](https://github.com/dallay/astro-icon/commit/63e93a31f4d08953eb8e00b7f4b6388d54086af6))
+* update core README ([#106](https://github.com/dallay/astro-icon/issues/106)) ([23c032b](https://github.com/dallay/astro-icon/commit/23c032b41e462107b83c5ce1960f2c5098e2d174))
+* update README ([996a5ad](https://github.com/dallay/astro-icon/commit/996a5ad1b62350a0e8e093f16c34659fee34fdbf))
+* update README, add license ([0562b6e](https://github.com/dallay/astro-icon/commit/0562b6ec5811cf534164e2a59d5ae8542c3cbddf))
+
 ## 1.2.4
 
 ### Patch Changes
