@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/natemoo-re/astro-icon.git",
+    "url": "git+https://github.com/dallay/astro-icon.git",
     "directory": "packages/service"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/natemoo-re/astro-icon/issues"
+    "url": "https://github.com/dallay/astro-icon/issues"
   },
-  "homepage": "https://github.com/natemoo-re/astro-icon#readme",
+  "homepage": "https://github.com/dallay/astro-icon#readme",
   "dependencies": {
     "@iconify/json": "^2.2.459",
     "@iconify/json-tools": "^1.0.10",

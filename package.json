@@ -4,29 +4,25 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "build": "pnpm --filter @twodft/astro-icon --filter www run build",
+    "build": "pnpm --filter @dallay/astro-icon --filter www run build",
     "dev": "pnpm -r run dev",
-    "lint": "prettier \"**/*.{js,ts,md,json}\"",
-    "version": "changeset version && pnpm install --no-frozen-lockfile --lockfile-only"
+    "lint": "prettier \"**/*.{js,ts,md,json}\""
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/twodft/astro-icon.git"
+    "url": "git+https://github.com/dallay/astro-icon.git"
   },
   "keywords": [],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/twodft/astro-icon/issues"
+    "url": "https://github.com/dallay/astro-icon/issues"
   },
-  "homepage": "https://github.com/natemoo-re/astro-icon#readme",
+  "homepage": "https://github.com/dallay/astro-icon#readme",
   "packageManager": "pnpm@10.33.0",
   "engines": {
     "node": ">=22.12.0"
   },
-  "dependencies": {
-    "@changesets/changelog-github": "^0.6.0",
-    "@changesets/cli": "^2.30.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "prettier": "^3.8.1"
   }

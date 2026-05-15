@@ -22,16 +22,16 @@
 
 ### Patch Changes
 
-- Fix compatibility with Astro v6 and `@astrojs/cloudflare` v13 in development and server-rendered builds by preventing `@twodft/astro-icon/components` from being prebundled before the integration's virtual module is registered.
+- Fix compatibility with Astro v6 and `@astrojs/cloudflare` v13 in development and server-rendered builds by preventing `@dallay/astro-icon/components` from being prebundled before the integration's virtual module is registered.
 
 ## 1.2.0
 
-First release as `@twodft/astro-icon`, a maintained fork of [`astro-icon`](https://github.com/natemoo-re/astro-icon).
+First release as `@dallay/astro-icon`, a maintained fork of [`astro-icon`](https://github.com/natemoo-re/astro-icon).
 
 ### Minor Changes
 
 - Upgraded to support **Astro v6.x** and updated all dependencies (TypeScript 6, Vite 7, Node 22+).
-- Migrated package namespace from `astro-icon` to `@twodft/astro-icon`.
+- Migrated package namespace from `astro-icon` to `@dallay/astro-icon`.
 
 ### Patch Changes
 
