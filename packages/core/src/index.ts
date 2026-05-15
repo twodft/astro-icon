@@ -24,12 +24,12 @@ export default function createIntegration(
               // Cloudflare's workerd dev pipeline can prebundle bare package
               // imports before Vite virtual modules are available.
               alias: {
-                "@twodft/astro-icon/components": componentsEntry,
+                "@dallay/astro-icon/components": componentsEntry,
               },
             },
             ssr: {
               external,
-              noExternal: ["@twodft/astro-icon"],
+              noExternal: ["@dallay/astro-icon"],
             },
           },
         });
