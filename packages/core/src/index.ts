@@ -1,21 +1,16 @@
+import { fileURLToPath } from "node:url";
+import type { AstroIntegration } from "astro";
 import type { IntegrationOptions } from "../typings/integration";
 import { createPlugin } from "./vite-plugin-astro-icon.js";
-import type { AstroIntegration } from "astro";
-import { fileURLToPath } from "node:url";
 
-export default function createIntegration(
-  opts: IntegrationOptions = {},
-): AstroIntegration {
-  const componentsEntry = fileURLToPath(
-    new URL("../components/index.ts", import.meta.url),
-  );
+export default function createIntegration(opts: IntegrationOptions = {}): AstroIntegration {
+  const componentsEntry = fileURLToPath(new URL("../components/index.ts", import.meta.url));
 
   return {
     name: "astro-icon",
     hooks: {
       "astro:config:setup"({ updateConfig, config, logger }) {
-        const external =
-          config.output === "static" ? ["@iconify-json/*"] : undefined;
+        const external = config.output === "static" ? ["@iconify-json/*"] : undefined;
         const { root, output } = config;
         updateConfig({
           vite: {

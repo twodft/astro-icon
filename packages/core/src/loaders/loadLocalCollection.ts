@@ -1,12 +1,6 @@
-import {
-  cleanupSVG,
-  importDirectory,
-  isEmptyColor,
-  parseColors,
-  runSVGO,
-} from "@iconify/tools";
+import { cleanupSVG, importDirectory, isEmptyColor, parseColors, runSVGO } from "@iconify/tools";
+import type { Color, SVG, SVGOOptions } from "../../typings/iconify";
 import type { IconCollection } from "../../typings/internal";
-import type { SVG, Color, SVGOOptions } from "../../typings/iconify";
 
 export default async function createLocalCollection(
   dir: string,
@@ -66,9 +60,7 @@ async function convertToCurrentColor(svg: SVG): Promise<void> {
   await parseColors(svg, {
     defaultColor: "currentColor",
     callback: (_, colorStr, color) => {
-      return color === null || isEmptyColor(color) || isWhite(color)
-        ? colorStr
-        : "currentColor";
+      return color === null || isEmptyColor(color) || isWhite(color) ? colorStr : "currentColor";
     },
   });
 }
@@ -79,8 +71,7 @@ async function isMonochrome(svg: SVG): Promise<boolean> {
     defaultColor: "currentColor",
     callback: (_, colorStr, color) => {
       if (!monochrome) return colorStr;
-      monochrome =
-        !color || isEmptyColor(color) || isWhite(color) || isBlack(color);
+      monochrome = !color || isEmptyColor(color) || isWhite(color) || isBlack(color);
       return colorStr;
     },
   });
