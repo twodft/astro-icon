@@ -1,6 +1,6 @@
 {
-  "name": "@twodft/astro-icon",
-  "version": "1.2.4",
+  "name": "@dallay/astro-icon",
+  "version": "1.3.1",
   "type": "module",
   "publishConfig": {
     "access": "public"
@@ -34,9 +34,9 @@
   },
   "contributors": [
     {
-      "name": "twodft",
+      "name": "dallay",
       "email": "pr@prpr.dev",
-      "url": "https://github.com/twodft"
+      "url": "https://github.com/dallay"
     }
   ],
   "keywords": [
@@ -52,23 +52,23 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/twodft/astro-icon.git",
+    "url": "git+https://github.com/dallay/astro-icon.git",
     "directory": "packages/core"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/twodft/astro-icon/issues"
+    "url": "https://github.com/dallay/astro-icon/issues"
   },
-  "homepage": "https://github.com/twodft/astro-icon#readme",
+  "homepage": "https://github.com/dallay/astro-icon#readme",
   "dependencies": {
     "@iconify/tools": "^5.0.11",
     "@iconify/types": "^2.0.0",
-    "@iconify/utils": "^3.1.0"
+    "@iconify/utils": "^3.1.3"
   },
   "devDependencies": {
-    "@types/node": "^25.5.2",
-    "astro": "^6.1.4",
-    "typescript": "^6.0.2",
-    "vite": "^7.0.0"
+    "@types/node": "^25.8.0",
+    "astro": "^6.3.3",
+    "typescript": "^6.0.3",
+    "vite": "^7.3.2"
   }
 }

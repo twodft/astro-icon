@@ -1,17 +1,13 @@
-import type { IntegrationOptions } from "../../typings/integration";
-import type {
-  AstroIconCollectionMap,
-  IconCollection,
-} from "../../typings/internal";
-import type { AutoInstall } from "../../typings/iconify";
-
+import { exec } from "node:child_process";
 import { readFile } from "node:fs/promises";
+import { promisify } from "node:util";
 import { getIcons } from "@iconify/utils";
 import { loadCollectionFromFS } from "@iconify/utils/lib/loader/fs";
-import { promisify } from "node:util";
-import { exec } from "node:child_process";
+import type { AutoInstall } from "../../typings/iconify";
+import type { IntegrationOptions } from "../../typings/integration";
+import type { AstroIconCollectionMap, IconCollection } from "../../typings/internal";
 
-const execa = promisify(exec);
+const _execa = promisify(exec);
 
 interface LoadOptions {
   root: URL;
@@ -24,7 +20,7 @@ export default async function loadIconifyCollections({
 }: LoadOptions): Promise<AstroIconCollectionMap> {
   const installedCollections = await detectInstalledCollections(root);
   // If icons are installed locally but not explicitly included, include the whole pack
-  for (let name of installedCollections) {
+  for (const name of installedCollections) {
     if (include[name] !== undefined) continue;
     include[name] = ["*"];
   }
@@ -55,13 +51,9 @@ export default async function loadIconifyCollections({
 
       const reducedCollection = getIcons(collection, requestedIcons);
       if (!reducedCollection) {
-        console.error(
-          `[astro-icon] "${name}" failed to load the specified icons!`,
-        );
+        console.error(`[astro-icon] "${name}" failed to load the specified icons!`);
         return acc;
-      } else if (
-        Object.keys(reducedCollection.icons).length !== requestedIcons.length
-      ) {
+      } else if (Object.keys(reducedCollection.icons).length !== requestedIcons.length) {
         console.error(
           `[astro-icon] "${name}" failed to load at least one of the specified icons! Verify the icon names are included in the icon collection.`,
         );
@@ -79,7 +71,7 @@ export default async function loadIconifyCollections({
 export async function loadCollection(
   name: string,
   autoInstall?: AutoInstall,
-): Promise<IconCollection | void> {
+): Promise<IconCollection | undefined> {
   if (!name) return;
 
   return loadCollectionFromFS(name, autoInstall);
@@ -87,7 +79,7 @@ export async function loadCollection(
 
 async function detectInstalledCollections(root: URL) {
   try {
-    let packages: string[] = [];
+    const packages: string[] = [];
     const text = await readFile(new URL("./package.json", root), {
       encoding: "utf8",
     });

@@ -22,41 +22,59 @@ jobs:
     name: Lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      - uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
         with:
           node-version: 22
           cache: 'pnpm'
       - run: pnpm install
 
-      # Lint autofix cannot run on forks, so just skip those! See https://github.com/wearerequired/lint-action/issues/13
-      - name: Lint (External)
-        if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.owner.login != github.repository_owner }}
+      # Check only — forks and Dependabot (no write access to push fixes)
+      - name: Lint (check only — forks and Dependabot)
+        if: |
+          (github.event_name == 'pull_request' && github.event.pull_request.head.repo.owner.login != github.repository_owner) ||
+          contains(github.actor, 'dependabot')
         run: pnpm run lint
-        
-      # Otherwise, run lint autofixer
-      - name: Lint
-        if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.owner.login == github.repository_owner }}
-        uses: wearerequired/lint-action@v2
+
+      # Auto-fix + commit — push to main or human PRs from same repo
+      - name: Lint (auto-fix)
+        if: |
+          !contains(github.actor, 'dependabot') &&
+          (github.event_name != 'pull_request' || github.event.pull_request.head.repo.owner.login == github.repository_owner)
+        run: pnpm run lint:fix || true
+
+      - name: Commit lint fixes
+        if: |
+          !contains(github.actor, 'dependabot') &&
+          (github.event_name != 'pull_request' || github.event.pull_request.head.repo.owner.login == github.repository_owner)
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          prettier: true
-          auto_fix: true
-          git_name: github-actions[bot]
-          git_email: github-actions[bot]@users.noreply.github.com
-          commit_message: 'chore(lint): ${linter} fix'
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          neutral_check_on_warning: true
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet; then
+            echo "No lint fixes needed."
+            exit 0
+          fi
+          git add -A
+          git commit -m "chore(lint): biome auto-fix"
+          # actions/checkout leaves a detached HEAD on PR events.
+          # Push back to the source branch explicitly; --force-with-lease
+          # prevents overwriting concurrent pushes that aren't ours.
+          if [ -n "$HEAD_REF" ]; then
+            git push origin "HEAD:${HEAD_REF}" --force-with-lease
+          else
+            git push
+          fi
 
   smoke:
     name: Smoke Test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      - uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
         with:
           node-version: 22
           cache: 'pnpm'

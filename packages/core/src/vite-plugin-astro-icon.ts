@@ -1,21 +1,13 @@
-import type { AstroConfig, AstroIntegrationLogger } from "astro";
 import { createHash } from "node:crypto";
-import { parse, resolve } from "node:path";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { parse, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import {
-  normalizePath,
-  type ModuleNode,
-  type Plugin,
-  type ViteDevServer,
-} from "vite";
+import type { AstroConfig, AstroIntegrationLogger } from "astro";
+import { type ModuleNode, normalizePath, type Plugin, type ViteDevServer } from "vite";
 import type { IntegrationOptions } from "../typings/integration";
-import type {
-  AstroIconCollectionMap,
-  IconCollection,
-} from "../typings/internal";
-import loadLocalCollection from "./loaders/loadLocalCollection.js";
+import type { AstroIconCollectionMap, IconCollection } from "../typings/internal";
 import loadIconifyCollections from "./loaders/loadIconifyCollections.js";
+import loadLocalCollection from "./loaders/loadLocalCollection.js";
 
 interface PluginContext extends Pick<AstroConfig, "root" | "output"> {
   logger: AstroIntegrationLogger;
@@ -32,14 +24,14 @@ export function createPlugin(
   const rootDir = fileURLToPath(root);
   const resolvedIconDir = normalizePath(resolve(rootDir, iconDir));
   const virtualModuleId = "virtual:astro-icon";
-  const resolvedVirtualModuleId = "\0" + virtualModuleId;
+  const resolvedVirtualModuleId = `\0${virtualModuleId}`;
 
   async function reloadCollections() {
     if (!collections) {
       collections = await loadIconifyCollections({ root, include });
     }
     const local = await loadLocalCollection(resolvedIconDir, svgoOptions);
-    collections["local"] = local;
+    collections.local = local;
     logCollections(collections, { ...ctx, iconDir });
     await generateIconTypeDefinitions(Object.values(collections), root);
     return collections;
@@ -82,7 +74,7 @@ export function createPlugin(
       if (id === resolvedVirtualModuleId) {
         try {
           await reloadCollections();
-        } catch (ex) {
+        } catch (_ex) {
           // Failed to load the local collection
         }
         return `export default ${JSON.stringify(collections)};\nexport const config = ${JSON.stringify({ include })}`;
@@ -96,15 +88,14 @@ export function createPlugin(
         const normalizedFilepath = normalizePath(filepath);
         const parsedPath = parse(normalizedFilepath);
         const isSvgFileInIconDir =
-          parsedPath.dir.startsWith(resolvedIconDir) &&
-          parsedPath.ext === ".svg";
+          parsedPath.dir.startsWith(resolvedIconDir) && parsedPath.ext === ".svg";
         const isAstroConfig = parsedPath.name === "astro.config";
         if (!isSvgFileInIconDir && !isAstroConfig) return;
         console.log(`Local icons changed, reloading`);
         try {
           await reloadCollections();
           scheduleReload();
-        } catch (ex) {
+        } catch (_ex) {
           // Failed to load the local collection
         }
         return `export default ${JSON.stringify(collections)};\nexport const config = ${JSON.stringify({ include })}`;
@@ -125,7 +116,7 @@ function logCollections(
     return;
   }
   const names: string[] = Object.keys(collections).filter((v) => v !== "local");
-  if (collections["local"]) {
+  if (collections.local) {
     names.unshift(iconDir);
   }
   logger.info(`Loaded icons from ${names.join(", ")}`);
@@ -152,19 +143,16 @@ declare module 'virtual:astro-icon' {
 \texport type Icon = ${
       collections.length > 0
         ? collections
-            .map((collection) =>
+            .flatMap((collection) =>
               Object.keys(collection.icons)
                 .concat(Object.keys(collection.aliases ?? {}))
                 .map(
                   (icon) =>
                     `\n\t\t| "${
-                      collection.prefix === defaultPack
-                        ? ""
-                        : `${collection.prefix}:`
+                      collection.prefix === defaultPack ? "" : `${collection.prefix}:`
                     }${icon}"`,
                 ),
             )
-            .flat(1)
             .join("")
         : "never"
     };
@@ -186,7 +174,7 @@ function collectionsHash(collections: IconCollection[]): string {
   return hash.digest("hex");
 }
 
-async function tryGetHash(path: URL): Promise<string | void> {
+async function tryGetHash(path: URL): Promise<string | undefined> {
   try {
     const text = await readFile(path, { encoding: "utf-8" });
     return text.split("\n", 3)[1].replace("// ", "");

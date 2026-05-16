@@ -1,5 +1,5 @@
-import { VercelApiHandler } from "@vercel/node";
 import { Collection, SVG } from "@iconify/json-tools";
+import type { VercelApiHandler } from "@vercel/node";
 import etag from "etag";
 
 const packAliases = new Map([
@@ -8,7 +8,7 @@ const packAliases = new Map([
 ]);
 
 const handler: VercelApiHandler = async (req, res) => {
-  const reqOrigin = req.headers["origin"];
+  const reqOrigin = req.headers.origin;
   const reqEtag = req.headers["if-none-match"];
   res.setHeader("Access-Control-Allow-Origin", reqOrigin || "*");
   res.setHeader("Cache-Control", "s-maxage=59, stale-while-revalidate=299");
@@ -41,7 +41,7 @@ const handler: VercelApiHandler = async (req, res) => {
     pack = packAliases.get(pack);
   }
 
-  let collection = new Collection();
+  const collection = new Collection();
   if (!collection.loadIconifyCollection(pack)) {
     // TODO: fuzzy match to provide more helpful error?
     res.status(404).send(`Not Found: pack "${pack}"`);

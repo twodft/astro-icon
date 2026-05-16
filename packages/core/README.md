@@ -2,14 +2,14 @@
 
 > **A community-maintained fork of [`astro-icon`](https://github.com/natemoo-re/astro-icon) by [Nate Moore](https://github.com/natemoo-re), updated for Astro v6.x and Cloudflare Workers compatibility.**
 
-[![npm version](https://img.shields.io/npm/v/@twodft/astro-icon?color=blue)](https://www.npmjs.com/package/@twodft/astro-icon)
+[![npm version](https://img.shields.io/npm/v/@dallay/astro-icon?color=blue)](https://www.npmjs.com/package/@dallay/astro-icon)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 
 ---
 
 ## ⚠️ About This Fork
 
-This package (`@twodft/astro-icon`) is a **ported and extended version** of the original [`astro-icon`](https://github.com/natemoo-re/astro-icon) created by **[Nate Moore (@natemoo-re)](https://github.com/natemoo-re)**.
+This package (`@dallay/astro-icon`) is a **ported and extended version** of the original [`astro-icon`](https://github.com/natemoo-re/astro-icon) created by **[Nate Moore (@natemoo-re)](https://github.com/natemoo-re)**.
 
 The original `astro-icon` is an excellent integration that has served the Astro community well. This fork exists to address specific compatibility needs that arose with newer versions of Astro and serverless deployment targets:
 
@@ -32,20 +32,20 @@ If the upstream project resumes active development with Astro v6 support, we rec
 ### Using npm
 
 ```sh
-npm install @twodft/astro-icon
+npm install @dallay/astro-icon
 ```
 
 ### Using pnpm
 
 ```sh
-pnpm add @twodft/astro-icon
+pnpm add @dallay/astro-icon
 ```
 
 Then, add the integration to your `astro.config.mjs`:
 
 ```js
 import { defineConfig } from "astro/config";
-import icon from "@twodft/astro-icon";
+import icon from "@dallay/astro-icon";
 
 export default defineConfig({
   integrations: [icon()],
@@ -66,7 +66,7 @@ By default, Astro Icon supports custom local `svg` icons. They are optimized wit
 
 ```astro
 ---
-import { Icon } from '@twodft/astro-icon/components';
+import { Icon } from '@dallay/astro-icon/components';
 ---
 
 <!-- Loads the SVG in `/src/icons/filename.svg` -->
@@ -83,7 +83,7 @@ Astro Icon also supports [Iconify](https://iconify.design) icon sets out-of-the-
 
 ```astro
 ---
-import { Icon } from '@twodft/astro-icon/components'
+import { Icon } from '@dallay/astro-icon/components'
 ---
 
 <!-- Automatically fetches and inlines Material Design Icon's "account" SVG -->
@@ -117,7 +117,7 @@ Styling your icons is straightforward. Any styles can be targeted to the `[data-
 
 ```astro
 ---
-import { Icon } from '@twodft/astro-icon/components';
+import { Icon } from '@dallay/astro-icon/components';
 ---
 
 <style lang="css">
@@ -160,7 +160,7 @@ To filter the exact Iconify icons that should be included, set an array of allow
 
 ```js
 import { defineConfig } from "astro/config";
-import icon from "@twodft/astro-icon";
+import icon from "@dallay/astro-icon";
 
 export default defineConfig({
   // ...
@@ -181,7 +181,7 @@ If you want to use a different custom svg icon directory instead of the default 
 
 ```js
 import { defineConfig } from "astro/config";
-import icon from "@twodft/astro-icon";
+import icon from "@dallay/astro-icon";
 
 export default defineConfig({
   // ...
@@ -199,7 +199,7 @@ If you want to customize the behavior of `.svg` optimization, you can configure 
 
 ```js
 import { defineConfig } from "astro/config";
-import icon from "@twodft/astro-icon";
+import icon from "@dallay/astro-icon";
 
 export default defineConfig({
   // ...
@@ -237,17 +237,17 @@ If you are currently using the original `astro-icon` package, migrating to this 
 
    ```sh
    npm uninstall astro-icon
-   npm install @twodft/astro-icon
+   npm install @dallay/astro-icon
    ```
 
 2. **Update imports**:
 
    ```diff
    - import icon from "astro-icon";
-   + import icon from "@twodft/astro-icon";
+   + import icon from "@dallay/astro-icon";
 
    - import { Icon } from 'astro-icon/components';
-   + import { Icon } from '@twodft/astro-icon/components';
+   + import { Icon } from '@dallay/astro-icon/components';
    ```
 
 3. **That's it!** — The API surface is fully compatible. No configuration changes needed.
@@ -265,4 +265,4 @@ You're welcome to submit an issue or PR!
 
 MIT — see [LICENSE](./LICENSE) for details.
 
-Original work © 2021 Nate Moore. Fork modifications © 2026 twodft.
+Original work © 2021 Nate Moore. Fork modifications © 2026 dallay.
