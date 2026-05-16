@@ -9,14 +9,12 @@ import Base from "../layouts/base.astro";
   <!--
     Star rating example: wrap the group in a <figure> with a <figcaption>
     so screen readers understand the collective meaning (WCAG 1.1.1 / 1.3.1).
-    Each Icon is decorative within the group — aria-hidden is set automatically.
+    Each Icon is decorative within the group — no title prop, so aria-hidden
+    is applied automatically by Icon.astro.
   -->
   <figure aria-label="Rating: 4 out of 5 stars">
-    {Array.from({ length: 5 }, (_, i) => (
-      <Icon
-        name="ic:outline-star"
-        title={i < 4 ? `Star ${i + 1}` : `Empty star ${i + 1}`}
-      />
+    {Array.from({ length: 5 }, () => (
+      <Icon name="ic:outline-star" />
     ))}
     <figcaption class="visually-hidden">4 out of 5 stars</figcaption>
   </figure>
