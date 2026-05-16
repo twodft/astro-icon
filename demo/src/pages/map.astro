@@ -1,10 +1,25 @@
 ---
+import Base from "../layouts/base.astro";
+import { Icon } from "@dallay/astro-icon/components";
 ---
 
 <Base>
   <h1>Welcome to Astro Icon!</h1>
 
-  {Array.from({ length: 5 }).map(() => <Icon name="ic:outline-star" />)}
+  <!--
+    Star rating example: wrap the group in a <figure> with a <figcaption>
+    so screen readers understand the collective meaning (WCAG 1.1.1 / 1.3.1).
+    Each Icon is decorative within the group — aria-hidden is set automatically.
+  -->
+  <figure aria-label="Rating: 4 out of 5 stars">
+    {Array.from({ length: 5 }, (_, i) => (
+      <Icon
+        name="ic:outline-star"
+        title={i < 4 ? `Star ${i + 1}` : `Empty star ${i + 1}`}
+      />
+    ))}
+    <figcaption class="visually-hidden">4 out of 5 stars</figcaption>
+  </figure>
 </Base>
 
 <style lang="css">
@@ -13,5 +28,18 @@
   }
   [data-icon="ic:outline-star"]:last-of-type {
     color: lightgray;
+  }
+
+  /* Visually hidden but available to assistive technologies (WCAG 1.3.1) */
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
   }
 </style>
