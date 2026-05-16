@@ -114,6 +114,7 @@ const normalizedProps = {
 };
 const _normalizedBody = renderData.body;
 
+// biome-ignore lint/correctness/noUnusedVariables: viewBox is extracted to remove it from normalizedProps via delete
 const { viewBox } = normalizedProps;
 if (includeSymbol) {
   delete normalizedProps.viewBox;
