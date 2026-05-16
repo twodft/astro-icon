@@ -82,11 +82,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Upgrade npm for trusted publishing
-        run: |
-          npm install --global npm@^11.5.1
-          npm --version
-
       - name: Build package
         run: pnpm --filter @dallay/astro-icon run build
 
@@ -150,8 +145,10 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build demo
-        run: pnpm --filter demo run build
+      - name: Build core and demo
+        run: |
+          pnpm --filter @dallay/astro-icon run build
+          pnpm --filter demo run build
 
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@da0e0dfe58b7a431659754fdf3f186c529afbe65 # v3.14.1
