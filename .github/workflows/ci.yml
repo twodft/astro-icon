@@ -30,29 +30,28 @@ jobs:
           cache: 'pnpm'
       - run: pnpm install
 
-      # Lint autofix: only on push to main or PRs from humans (not forks, not Dependabot)
+      # Check only — forks and Dependabot (no write access to push fixes)
       - name: Lint (check only — forks and Dependabot)
         if: |
           (github.event_name == 'pull_request' && github.event.pull_request.head.repo.owner.login != github.repository_owner) ||
-          github.actor == 'dependabot[bot]'
+          contains(github.actor, 'dependabot')
         run: pnpm run lint
 
-      # Auto-fix: push to main or human PRs from same repo
+      # Auto-fix + commit — push to main or human PRs from same repo
       - name: Lint (auto-fix)
         if: |
           !contains(github.actor, 'dependabot') &&
           (github.event_name != 'pull_request' || github.event.pull_request.head.repo.owner.login == github.repository_owner)
-        uses: wearerequired/lint-action@548d8a7c4b04d3553d32ed5b6e91eb171e10e7bb # v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          prettier: true
-          auto_fix: true
-          git_name: github-actions[bot]
-          git_email: github-actions[bot]@users.noreply.github.com
-          commit_message: 'chore(lint): ${linter} fix'
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          neutral_check_on_warning: true
+        run: pnpm run lint:fix || true
+
+      - name: Commit lint fixes
+        if: |
+          !contains(github.actor, 'dependabot') &&
+          (github.event_name != 'pull_request' || github.event.pull_request.head.repo.owner.login == github.repository_owner)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git diff --quiet || (git add -A && git commit -m "chore(lint): biome auto-fix" && git push)
 
   smoke:
     name: Smoke Test
