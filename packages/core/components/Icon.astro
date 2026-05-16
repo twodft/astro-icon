@@ -118,11 +118,10 @@ const normalizedProps = {
   // Prevent SVGs from being focusable in IE/Edge and some browsers
   focusable: "false" as const,
   // Decorative icons must be hidden from the accessibility tree (WCAG 1.1.1)
-  ...(isDecorative
-    ? { "aria-hidden": "true" as const }
-    : { role: "img" as const }),
+  ...(isDecorative ? { "aria-hidden": "true" as const } : { role: "img" as const }),
   ...props,
 };
+// biome-ignore lint/correctness/noUnusedVariables: used in the Astro template below, outside Biome's JS scope
 const normalizedBody = renderData.body;
 
 // biome-ignore lint/correctness/noUnusedVariables: viewBox is extracted to remove it from normalizedProps via delete
